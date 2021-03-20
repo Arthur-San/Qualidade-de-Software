@@ -1,0 +1,24 @@
+1.1
+select f.nome, co.ddd, co.numero, co.tipo
+from tb_funcionario as f, tb_contato_has_tb_funcionario as cf, tb_contato as co, tb_venda as v, tb_produto_has_tb_venda as pv, tb_produto as p
+where f.pk_codfuncionario = cf.fk_codfuncionario
+and cf.fk_codcontato = co.pk_codcontato
+and f.pk_codfuncionario = v.fk_codfuncionario
+and v.pk_codvenda = pv.fk_codvenda
+and p.pk_codproduto = pv.fk_codproduto
+and p.nome = 'Home Theater';
+
+1.2
+select f.nome, co.ddd, co.numero, co.tipo
+from tb_funcionario as f
+inner join tb_contato_has_tb_funcionario as cf
+on f.pk_codfuncionario = cf.fk_codfuncionario
+inner join tb_contato as co
+on cf.fk_codcontato = co.pk_codcontato
+inner join tb_venda as v
+on  f.pk_codfuncionario = v.fk_codfuncionario
+inner join tb_produto_has_tb_venda as pv
+on v.pk_codvenda = pv.fk_codvenda
+inner join tb_produto as p
+on p.pk_codproduto = pv.fk_codproduto
+and p.nome = 'Home Theater';

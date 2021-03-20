@@ -1,0 +1,180 @@
+2 - Baseado no diagrama E.R. modelo lógico acima faça as seguintes consultas:
+a)Listar a disciplina com a maior carga horária. 
+R: select concat('Horas ', format( max(carga_horaria),0,'')) as "Carga horária" from tb_disciplina;
+
+
+b)Listar a média das notas dos alunos da turma 2173. 
+R: select t.pk_codturma, a.nome, ta.n1, ta.n2
+from tb_aluno a, tb_aluno_turma ta, tb_turma t
+where a.pk_matricula = ta.fk_matricula
+and ta.fk_codturma = t.pk_codturma
+and t.pk_codturma = '2173'   
+(incompleto)
+
+
+c)Listar todos os alunos que tiveram aula com a professor Frodo. 
+
+Com WHERE: 
+select a.nome as "Nome do aluno"
+from tb_aluno as a, tb_aluno_turma as ta, tb_turma t, tb_professor p
+	where a.pk_matricula = ta.fk_matricula
+    and ta.fk_codturma = t.pk_codturma
+    and t.fk_codprofessor = p.pk_codprofessor
+    and p.nome = 'Frodo';
+
+Com INNER JOIN R:
+select a.nome from tb_aluno as a
+inner join tb_aluno_turma as ta
+on a.pk_matricula = ta.fk_matricula
+inner join tb_turma as t
+on ta.fk_codturma = t.pk_codturma
+inner join tb_professor as p
+on t.fk_codprofessor = p.pk_codprofessor
+and p.nome = 'Frodo';
+
+
+d)Listar todos os alunos que tiveram aula com a professora Andressa. 
+Com WHERE:
+select a.nome as "Nome do aluno"
+from tb_aluno as a, tb_aluno_turma as ta, tb_turma t, tb_professor p
+	where a.pk_matricula = ta.fk_matricula
+    and ta.fk_codturma = t.pk_codturma
+    and t.fk_codprofessor = p.pk_codprofessor
+    and p.nome = 'Andressa';
+
+Com INNER JOIN R:
+select a.nome from tb_aluno as a
+inner join tb_aluno_turma as ta
+on a.pk_matricula = ta.fk_matricula
+inner join tb_turma as t
+on ta.fk_codturma = t.pk_codturma
+inner join tb_professor as p
+on t.fk_codprofessor = p.pk_codprofessor
+and p.nome = 'Andressa';
+
+e)Listar todas as disciplinas listadas pelo professor Jonatas. 
+Com WHERE:
+select d.nome from tb_professor as p, tb_turma as t, tb_disciplina as d
+	where p.pk_codprofessor = t.fk_codprofessor
+    and t.fk_coddisciplina = d.pk_coddisciplina
+    and p.nome = 'Jonatas';
+
+Com INNER JOIN R:
+select d.nome from tb_disciplina as d 
+inner join tb_turma as t
+on d.pk_coddisciplina = t.fk_coddisciplina
+inner join tb_professor as p
+on t.fk_codprofessor = p.pk_codprofessor
+and p.nome = 'Jonatas';
+
+
+f)Listar o nome das disciplinas que tiveram alunos com notas abaixo de 6.
+Com WHERE:
+Com WHERE
+R: select d.nome, a.nome, ta.n1, ta.n2
+from tb_disciplina d, tb_turma t, tb_aluno_turma ta, tb_aluno a
+where d.pk_coddisciplina = t.fk_coddisciplina
+and t.pk_codturma = ta.fk_codturma
+and ta.fk_matricula = a.pk_matricula
+and n1<(6)
+and n2<(6);
+(incompleto)
+		
+Com INNER JOIN
+R: select d.nome, a.nome, ta.n1, ta.n2
+from tb_disciplina d
+inner join tb_turma t on d.pk_coddisciplina = t.fk_coddisciplina
+inner join tb_aluno_turma ta on t.pk_codturma = ta.fk_codturma
+inner join tb_aluno a on ta.fk_matricula = a.pk_matricula
+and n1<(6)
+and n2<(6);
+(incompleto)
+
+
+
+g)Listar o nome dos professores que deram aula no ano de 2014. 
+Com WHERE:
+select p.nome, t.ano_inicio
+from tb_professor as p, tb_turma as t
+where p.pk_codprofessor = t.fk_codprofessor
+and t.ano_inicio = '2014';
+
+Com INNER JOIN R:
+select p.nome from tb_professor as p 
+inner join tb_turma as t
+on p.pk_codprofessor = t.fk_codprofessor
+and t.ano_inicio = '2014';
+
+
+h)Listar o nome dos alunos que tiveram alguma nota 10, seja na N1 ou na N2. 
+Com WHERE
+R: select a.nome, ta.n1, ta.n2
+from tb_aluno a, tb_aluno_turma ta
+where a.pk_matricula = ta.fk_matricula
+and n1=(10) or n2=(10);
+		
+Com INNER JOIN
+R: select a.nome, ta.n1, ta.n2
+from tb_aluno a
+inner join tb_aluno_turma ta on a.pk_matricula = ta.fk_matricula
+where n1=(10) or n2=(10)
+
+
+
+i)Listar o nome dos professores que deram aula para Cristiano. 
+Com WHERE:
+select p.nome as "Professor"
+from tb_professor as p, tb_turma as t, tb_aluno_turma as ta, tb_aluno as a
+where p.pk_codprofessor = t.fk_codprofessor
+and t.pk_codturma = ta.fk_codturma
+and ta.fk_matricula = a.pk_matricula
+and a.nome = 'Cristiano';
+
+Com INNER JOIN R:
+select p.nome from tb_professor as p
+inner join tb_turma as t
+on p.pk_codprofessor = t.fk_codprofessor
+inner join tb_aluno_turma as ta
+on t.pk_codturma = ta.fk_codturma
+inner join tb_aluno as a
+on ta.fk_matricula = a.pk_matricula
+and a.nome = 'Cristiano';
+
+j)Listar o nome dos alunos que estudam a noite. 
+Com WHERE:
+select a.nome
+from  tb_aluno as a, tb_aluno_turma as ta, tb_turma as t, tb_turno as tu 
+where a.pk_matricula = ta.fk_matricula
+and ta.fk_codturma = t.pk_codturma
+and t.fk_codturno = tu.pk_codturno
+and descricao = "noite";
+
+Com INNER JOIN R:
+select a.nome 
+from tb_aluno as a
+inner join tb_aluno_turma as ta
+on a.pk_matricula = ta.fk_matricula
+inner join tb_turma as t
+on ta.fk_codturma = t.pk_codturma
+inner join tb_turno as tu
+on t.fk_codturno = tu.pk_codturno
+and descricao = "Noite";
+
+k)Listar o nome e o telefone do aluno que fez Linguagem de Banco de Dados.
+Com WHERE:
+select a.nome as "Nome do aluno"
+from tb_aluno as a, tb_aluno_turma as ta, tb_turma as t, tb_disciplina as d
+	where a.pk_matricula = ta.fk_matricula
+    and ta.fk_codturma = t.pk_codturma
+    and t.fk_coddisciplina = d.pk_coddisciplina
+    and d.nome = "Linguagem de Banco de Dados";
+
+Com INNER JOIN R:
+select a.nome as "Nome do aluno" from tb_aluno as a
+inner join tb_aluno_turma as ta
+on a.pk_matricula = ta.fk_matricula
+inner join tb_turma as t
+on ta.fk_codturma = t.pk_codturma
+inner join tb_disciplina as d
+on t.fk_coddisciplina = d.pk_coddisciplina
+and d.nome = "Linguagem de Banco de Dados";

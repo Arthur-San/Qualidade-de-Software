@@ -1,0 +1,91 @@
+1.
+select * from tb_funcionario;
+
+2.
+select nome, senha from tb_funcionario;
+
+3.
+select * from tb_cliente;
+
+4.
+select nome, cpf from tb_funcionario;
+
+5.
+select * from tb_funcionario 
+order by nome desc;
+
+6.
+select * from tb_cliente 
+order by nome asc;
+
+7.
+select * from tb_venda;
+
+8.
+select valor_total from tb_venda
+where pk_codvenda = 3 or pk_codvenda = 5;
+
+9.
+select * from tb_venda
+where pk_codvenda > 1 and pk_codvenda < 5;
+
+10.
+select concat('R$',format(sum(precounitario),2,'de_DE')) 'Valor total em estoque' from tb_produto, tb_produto_has_tb_venda;
+
+11.
+select count(pk_produto) from tb_produto;
+
+12.
+select max(precounitario) from tb_venda
+
+13.
+select min(precounitario) from tb_venda
+
+14.
+select avg(pisosalarial) 'Média Salarial' from tb_cargo;
+
+15.
+select * from tb_venda
+order by pk_codvenda asc limit 3;
+
+16.
+select * from tb_venda
+order by pk_codvenda desc limit 3;
+
+17.
+update tb_contato
+set email = 'anonimo504@gmail,com'
+where pk_codcontato = 2;
+
+18.
+alter table tb_endereco add uf char(2) not null;
+
+19.
+update tb_endereco
+set uf = 'RS'
+where pk_codendereco <> 0;
+
+20.
+insert into tb_contato_has_tb_cliente(fk_codcontato,fk_codcliente)
+values
+('6','5');
+
+21.
+delete from tb_contato_has_tb_cliente
+where fk_codcontato = 6;
+
+DESAFIO:
+
+1.
+select nome, precounitario from tb_produto
+where precounitario = (select min(precounitario) from tb_produto);
+
+2.
+select nome, precounitario from tb_produto
+where precounitario = (select max(precounitario) from tb_produto);
+
+3.
+select f.nome, c.nome 
+from tb_funcionario as f
+inner join tb_cargo as c
+on f.fk_codcargo = pk_codcargo; 
